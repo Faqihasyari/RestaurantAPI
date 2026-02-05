@@ -34,7 +34,7 @@ class AddReviewFormState extends State<AddReviewForm> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -51,7 +51,7 @@ class AddReviewFormState extends State<AddReviewForm> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
+                    color: Colors.orange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -61,26 +61,28 @@ class AddReviewFormState extends State<AddReviewForm> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Berikan Review',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Berikan Review',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Bagikan pengalaman Anda',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Theme.of(context).textTheme.bodySmall?.color,
+                      const SizedBox(height: 2),
+                      Text(
+                        'Bagikan pengalaman Anda',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).textTheme.bodySmall?.color,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -112,13 +114,13 @@ class AddReviewFormState extends State<AddReviewForm> {
                 hintStyle: TextStyle(
                   color: Theme.of(
                     context,
-                  ).textTheme.bodySmall?.color?.withOpacity(0.5),
+                  ).textTheme.bodySmall?.color?.withValues(alpha: 0.5),
                 ),
                 prefixIcon: Container(
                   margin: const EdgeInsets.all(12),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
+                    color: Colors.blue.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -189,7 +191,7 @@ class AddReviewFormState extends State<AddReviewForm> {
                 hintStyle: TextStyle(
                   color: Theme.of(
                     context,
-                  ).textTheme.bodySmall?.color?.withOpacity(0.5),
+                  ).textTheme.bodySmall?.color?.withValues(alpha: 0.5),
                 ),
                 alignLabelWithHint: true,
                 counterStyle: TextStyle(
@@ -199,7 +201,7 @@ class AddReviewFormState extends State<AddReviewForm> {
                   margin: const EdgeInsets.all(12),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -256,7 +258,7 @@ class AddReviewFormState extends State<AddReviewForm> {
                       ? Colors.grey[800]
                       : Colors.grey[300],
                   elevation: _isSubmitting ? 0 : 2,
-                  shadowColor: Colors.orange.withOpacity(0.3),
+                  shadowColor: Colors.orange.withValues(alpha: 0.3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -290,11 +292,13 @@ class AddReviewFormState extends State<AddReviewForm> {
                         children: [
                           Icon(Icons.send, size: 20),
                           SizedBox(width: 8),
-                          Text(
-                            'Kirim Review',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Text(
+                              'Kirim Review',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
