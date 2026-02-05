@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/core/theme/dark_theme.dart';
+import 'package:permission1/core/theme/light_theme.dart';
+import 'package:permission1/presentasion/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'routes.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,9 +10,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
       title: 'Restaurant App',
       debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeProvider.themeMode,
 
       // initial page
       initialRoute: AppRoutes.home,
@@ -19,11 +27,8 @@ class MyApp extends StatelessWidget {
       // fallback kalau route salah
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(
-              child: Text('Page not found'),
-            ),
-          ),
+          builder: (_) =>
+              const Scaffold(body: Center(child: Text('Page not found'))),
         );
       },
     );

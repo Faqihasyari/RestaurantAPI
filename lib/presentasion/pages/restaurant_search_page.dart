@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission1/core/constants/api_constant.dart';
 import 'package:permission1/core/utils/result_state.dart';
 import 'package:permission1/presentasion/providers/restaurant_search_provider.dart';
+import 'package:permission1/presentasion/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantSearchPage extends StatefulWidget {
@@ -25,21 +26,33 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.brightness_6,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {
+              context.read<ThemeProvider>().toggleTheme();
+            },
+          ),
+        ],
         elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        title: Text(
           'Search Restaurant',
           style: TextStyle(
-            color: Colors.black87,
+            color: Theme.of(context).appBarTheme.foregroundColor,
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
         ),
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey[200], height: 1),
+          child: Container(color: Theme.of(context).dividerColor, height: 1),
         ),
       ),
       body: Column(
@@ -64,7 +77,7 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -77,12 +90,18 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
       child: TextField(
         controller: _searchController,
         focusNode: _searchFocusNode,
+        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
         onChanged: (value) {
           context.read<RestaurantSearchProvider>().search(value);
         },
         decoration: InputDecoration(
           hintText: 'Search restaurant (min 3 characters)...',
-          hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+          hintStyle: TextStyle(
+            color: Theme.of(
+              context,
+            ).textTheme.bodySmall?.color?.withOpacity(0.5),
+            fontSize: 14,
+          ),
           prefixIcon: Container(
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(8),
@@ -94,7 +113,10 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
           ),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
-                  icon: const Icon(Icons.clear, color: Colors.grey),
+                  icon: Icon(
+                    Icons.clear,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                   onPressed: () {
                     _searchController.clear();
                     context.read<RestaurantSearchProvider>().search('');
@@ -106,8 +128,16 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
           ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: Colors.orange, width: 2),
+          ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Theme.of(context).cardColor,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 16,
@@ -140,17 +170,20 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
     }
 
     if (state is Loading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(
+            const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Searching...',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodySmall?.color,
+                fontSize: 14,
+              ),
             ),
           ],
         ),
@@ -187,7 +220,7 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
               'Found ${results.length} restaurant${results.length > 1 ? 's' : ''}',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[600],
+                color: Theme.of(context).textTheme.bodySmall?.color,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -218,7 +251,7 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -290,10 +323,10 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
                     // Restaurant Name
                     Text(
                       restaurant['name'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -322,7 +355,9 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
                             restaurant['city'],
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey[700],
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.color,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
@@ -355,10 +390,12 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
                           const SizedBox(width: 4),
                           Text(
                             restaurant['rating'].toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
                             ),
                           ),
                         ],
@@ -373,13 +410,13 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
                 margin: const EdgeInsets.only(left: 8),
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                  color: Theme.of(context).dividerColor.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 14,
-                  color: Colors.grey[600],
+                  color: Theme.of(context).iconTheme.color,
                 ),
               ),
             ],
@@ -395,6 +432,10 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
     required String subtitle,
     Color? color,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final defaultColor = isDark ? Colors.grey[600] : Colors.grey[400];
+    final titleColor = color ?? Theme.of(context).textTheme.bodyMedium?.color;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -402,10 +443,10 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: (color ?? Colors.grey).withOpacity(0.1),
+              color: (color ?? defaultColor)!.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 64, color: color ?? Colors.grey[400]),
+            child: Icon(icon, size: 64, color: color ?? defaultColor),
           ),
           const SizedBox(height: 16),
           Text(
@@ -413,7 +454,7 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: color ?? Colors.black87,
+              color: titleColor,
             ),
           ),
           const SizedBox(height: 8),
@@ -421,7 +462,10 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
               subtitle,
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).textTheme.bodySmall?.color,
+              ),
               textAlign: TextAlign.center,
             ),
           ),

@@ -31,4 +31,29 @@ class RestaurantDetailProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> addReview({
+    required String name,
+    required String review,
+  }) async {
+    try {
+      if (_state is! HasData<Map<String, dynamic>>) return;
+
+      final reviews = await repository.addReviewUrl(
+        restaurantId: restaurantId,
+        name: name,
+        review: review,
+      );
+
+      final currentData =
+          (_state as HasData<Map<String, dynamic>>).data;
+
+      currentData['customerReviews'] = reviews;
+      _state = HasData(currentData);
+      notifyListeners();
+    } catch (e) {
+      _state = ErrorState(e.toString());
+      notifyListeners();
+    }
+  }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:permission1/core/constants/api_constant.dart';
 import 'package:permission1/core/utils/result_state.dart';
+import 'package:permission1/core/widgets/add_review_form.dart';
 import 'package:permission1/presentasion/providers/restaurant_detail_provider.dart';
+import 'package:permission1/presentasion/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
@@ -15,7 +17,11 @@ class RestaurantDetailPage extends StatelessWidget {
           final state = provider.state;
 
           if (state is Loading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+              ),
+            );
           }
 
           if (state is HasData<Map<String, dynamic>>) {
@@ -23,10 +29,25 @@ class RestaurantDetailPage extends StatelessWidget {
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
+                  actions: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.brightness_6,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      onPressed: () {
+                        context.read<ThemeProvider>().toggleTheme();
+                      },
+                    ),
+                  ],
                   expandedHeight: 300,
                   pinned: true,
-                  backgroundColor: Colors.white,
-                  iconTheme: const IconThemeData(color: Colors.white),
+                  backgroundColor: Theme.of(
+                    context,
+                  ).appBarTheme.backgroundColor,
+                  iconTheme: IconThemeData(
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                   flexibleSpace: FlexibleSpaceBar(
                     title: Container(
                       padding: const EdgeInsets.symmetric(
@@ -84,7 +105,7 @@ class RestaurantDetailPage extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    color: Colors.grey[50],
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -93,7 +114,7 @@ class RestaurantDetailPage extends StatelessWidget {
                           margin: const EdgeInsets.all(16),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
@@ -106,18 +127,27 @@ class RestaurantDetailPage extends StatelessWidget {
                           child: Column(
                             children: [
                               _infoRow(
+                                context,
                                 Icons.location_on,
                                 restaurant['city'],
                                 Colors.red,
                               ),
-                              const Divider(height: 24),
+                              Divider(
+                                height: 24,
+                                color: Theme.of(context).dividerColor,
+                              ),
                               _infoRow(
+                                context,
                                 Icons.home_outlined,
                                 restaurant['address'],
                                 Colors.blue,
                               ),
-                              const Divider(height: 24),
+                              Divider(
+                                height: 24,
+                                color: Theme.of(context).dividerColor,
+                              ),
                               _infoRow(
+                                context,
                                 Icons.star,
                                 '${restaurant['rating']} Rating',
                                 Colors.amber,
@@ -131,7 +161,7 @@ class RestaurantDetailPage extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 16),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
@@ -159,12 +189,12 @@ class RestaurantDetailPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(width: 12),
-                                  const Text(
+                                  Text(
                                     'Deskripsi',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -174,7 +204,9 @@ class RestaurantDetailPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 14,
                                   height: 1.6,
-                                  color: Colors.grey[700],
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.bodySmall?.color,
                                 ),
                                 textAlign: TextAlign.justify,
                               ),
@@ -186,6 +218,7 @@ class RestaurantDetailPage extends StatelessWidget {
 
                         // Menu Section
                         _buildMenu(
+                          context,
                           'Makanan',
                           restaurant['menus']['foods'],
                           Icons.restaurant,
@@ -195,11 +228,25 @@ class RestaurantDetailPage extends StatelessWidget {
                         const SizedBox(height: 16),
 
                         _buildMenu(
+                          context,
                           'Minuman',
                           restaurant['menus']['drinks'],
                           Icons.local_drink,
                           Colors.blue,
                         ),
+
+                        const SizedBox(height: 16),
+
+                        // Customer Reviews Section
+                        _buildReviewsSection(
+                          context,
+                          restaurant['customerReviews'],
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Add Review Form
+                        const AddReviewForm(),
 
                         const SizedBox(height: 24),
                       ],
@@ -232,7 +279,12 @@ class RestaurantDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _infoRow(IconData icon, String text, Color color) {
+  Widget _infoRow(
+    BuildContext context,
+    IconData icon,
+    String text,
+    Color color,
+  ) {
     return Row(
       children: [
         Container(
@@ -247,19 +299,29 @@ class RestaurantDetailPage extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildMenu(String title, List items, IconData icon, Color color) {
+  Widget _buildMenu(
+    BuildContext context,
+    String title,
+    List items,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -285,10 +347,9 @@ class RestaurantDetailPage extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontSize: 20),
               ),
             ],
           ),
@@ -317,6 +378,218 @@ class RestaurantDetailPage extends StatelessWidget {
                 ),
               );
             }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewsSection(BuildContext context, List reviews) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.purple.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.reviews,
+                  color: Colors.purple,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Review Pelanggan',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontSize: 20),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.purple.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '${reviews.length} Review',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purple,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          // Reviews List
+          if (reviews.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.rate_review_outlined,
+                    size: 48,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey[600]
+                        : Colors.grey[300],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Belum ada review',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodySmall?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Jadilah yang pertama memberikan review!',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.color?.withOpacity(0.8),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: reviews.length,
+              separatorBuilder: (context, index) =>
+                  Divider(height: 24, color: Theme.of(context).dividerColor),
+              itemBuilder: (context, index) {
+                final review = reviews[index];
+                return _buildReviewCard(context, review);
+              },
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewCard(BuildContext context, Map review) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF2C2C2C) : Colors.grey[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).dividerColor, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header: Name and Date
+          Row(
+            children: [
+              // Avatar
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.purple.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    review['name'][0].toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.purple,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+
+              // Name and Date
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      review['name'],
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 12,
+                          color: Theme.of(context).textTheme.bodySmall?.color,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          review['date'],
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).textTheme.bodySmall?.color,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 12),
+
+          // Review Text
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              review['review'],
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
+            ),
           ),
         ],
       ),

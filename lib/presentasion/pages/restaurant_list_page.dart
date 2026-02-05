@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission1/core/constants/api_constant.dart';
 import 'package:permission1/core/utils/result_state.dart';
 import 'package:permission1/presentasion/providers/restauran_list_provider.dart';
+import 'package:permission1/presentasion/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantListPage extends StatelessWidget {
@@ -10,29 +11,36 @@ class RestaurantListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text(
+        title: Text(
           'Restaurants',
           style: TextStyle(
-            color: Colors.black87,
+            color: Theme.of(context).appBarTheme.foregroundColor,
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.black54),
+            icon: Icon(Icons.search, color: Theme.of(context).iconTheme.color),
             onPressed: () {
               Navigator.pushNamed(context, '/search');
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.brightness_6,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            onPressed: () {
+              context.read<ThemeProvider>().toggleTheme();
             },
           ),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey[200], height: 1),
+          child: Container(color: Theme.of(context).dividerColor, height: 1),
         ),
       ),
       body: Consumer<RestauranListProvider>(
@@ -114,7 +122,7 @@ class RestaurantListPage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -186,11 +194,7 @@ class RestaurantListPage extends StatelessWidget {
                     // Restaurant Name
                     Text(
                       restaurant['name'],
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+                      style: Theme.of(context).textTheme.titleMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -218,7 +222,9 @@ class RestaurantListPage extends StatelessWidget {
                             restaurant['city'],
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.grey[700],
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.color,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
@@ -251,10 +257,12 @@ class RestaurantListPage extends StatelessWidget {
                           const SizedBox(width: 4),
                           Text(
                             restaurant['rating'].toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
                             ),
                           ),
                         ],
@@ -269,13 +277,13 @@ class RestaurantListPage extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 8),
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
-                  color: Colors.grey[600],
+                  color: Theme.of(context).iconTheme.color,
                 ),
               ),
             ],
