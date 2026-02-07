@@ -13,7 +13,6 @@ class AddReviewFormState extends State<AddReviewForm> {
   final _nameController = TextEditingController();
   final _reviewController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -25,6 +24,9 @@ class AddReviewFormState extends State<AddReviewForm> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isSubmitting = context
+        .watch<RestaurantDetailProvider>()
+        .isSubmittingReview;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -92,7 +94,7 @@ class AddReviewFormState extends State<AddReviewForm> {
             // Name Field
             TextFormField(
               controller: _nameController,
-              enabled: !_isSubmitting,
+              enabled: !isSubmitting,
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
@@ -167,7 +169,7 @@ class AddReviewFormState extends State<AddReviewForm> {
             // Review Field
             TextFormField(
               controller: _reviewController,
-              enabled: !_isSubmitting,
+              enabled: !isSubmitting,
               maxLines: 4,
               maxLength: 500,
               style: TextStyle(
@@ -250,20 +252,20 @@ class AddReviewFormState extends State<AddReviewForm> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _isSubmitting ? null : _handleSubmit,
+                onPressed: isSubmitting ? null : _handleSubmit,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
                   disabledBackgroundColor: isDark
                       ? Colors.grey[800]
                       : Colors.grey[300],
-                  elevation: _isSubmitting ? 0 : 2,
+                  elevation: isSubmitting ? 0 : 2,
                   shadowColor: Colors.orange.withValues(alpha: 0.3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: _isSubmitting
+                child: isSubmitting
                     ? const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -320,10 +322,6 @@ class AddReviewFormState extends State<AddReviewForm> {
       return;
     }
 
-    setState(() {
-      _isSubmitting = true;
-    });
-
     try {
       final provider = context.read<RestaurantDetailProvider>();
 
@@ -332,11 +330,9 @@ class AddReviewFormState extends State<AddReviewForm> {
         review: _reviewController.text.trim(),
       );
 
-      // Clear fields
       _nameController.clear();
       _reviewController.clear();
 
-      // Show success message
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -363,7 +359,6 @@ class AddReviewFormState extends State<AddReviewForm> {
         );
       }
     } catch (e) {
-      // Show error message
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -388,12 +383,6 @@ class AddReviewFormState extends State<AddReviewForm> {
             duration: const Duration(seconds: 4),
           ),
         );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-        });
       }
     }
   }

@@ -23,61 +23,61 @@ class ApiService {
 
   // hit api
   Future<List<dynamic>> getRestaurantList() async {
-    final response = await http.get(Uri.parse(getRestaurantDetailUrl()));
+    try {
+      final response = await http.get(Uri.parse(getRestaurantDetailUrl()));
 
-    if (response.statusCode == 200) {
       final decoded = json.decode(response.body);
       return decoded['restaurants'];
-    } else {
-      throw Exception('Failed to load restaurant list');
+    } catch (e) {
+      throw Exception(
+        'Gagal memuat daftar restoran.\nPeriksa koneksi internet Anda.',
+      );
     }
   }
 
   // get restaurant detail
   Future<Map<String, dynamic>> getRestaurantDetail(String id) async {
-    final response = await http.get(Uri.parse(getRestaurantByIdUrl(id)));
+    try {
+      final response = await http.get(Uri.parse(getRestaurantByIdUrl(id)));
 
-    if (response.statusCode == 200) {
       final decoded = json.decode(response.body);
       return decoded['restaurant'];
-    } else {
-      throw Exception('Failed to load restaurant detail');
+    } catch (e) {
+      throw Exception(
+        'Gagal memuat detail restoran.\nPeriksa koneksi internet Anda.',
+      );
     }
   }
 
   Future<List<dynamic>> searchRestaurant(String query) async {
-    final response = await http.get(Uri.parse(getSearchRestaurantUrl(query)));
+    try {
+      final response = await http.get(Uri.parse(getSearchRestaurantUrl(query)));
 
-    if (response.statusCode == 200) {
       final decoded = json.decode(response.body);
       return decoded['restaurants'];
-    } else {
-      throw Exception('Failed to search restaurants');
+    } catch (e) {
+      throw Exception(
+        'Gagal mencari restoran.\nPeriksa koneksi internet Anda.',
+      );
     }
   }
 
   Future<List<dynamic>> addReviewUrl({
-  required String restaurantId,
-  required String name,
-  required String review,
-}) async {
-  final response = await http.post(
-    Uri.parse(addReview()),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: json.encode({
-      'id': restaurantId,
-      'name': name,
-      'review': review,
-    }),
-  );
+    required String restaurantId,
+    required String name,
+    required String review,
+  }) async {
+    final response = await http.post(
+      Uri.parse(addReview()),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'id': restaurantId, 'name': name, 'review': review}),
+    );
 
-  if (response.statusCode == 201 || response.statusCode == 200) {
-    final decoded = json.decode(response.body);
-    return decoded['customerReviews'];
-  } else {
-    throw Exception('Gagal menambahkan review');
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      final decoded = json.decode(response.body);
+      return decoded['customerReviews'];
+    } else {
+      throw Exception('Gagal menambahkan review');
+    }
   }
-}
 }

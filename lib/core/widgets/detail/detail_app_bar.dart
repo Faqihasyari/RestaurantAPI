@@ -74,7 +74,6 @@ class DetailAppBar extends StatelessWidget {
                 },
               ),
             ),
-            // Gradient overlay
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

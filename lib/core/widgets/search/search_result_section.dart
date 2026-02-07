@@ -18,12 +18,20 @@ class SearchResultSection extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (state is ErrorState) {
+          return const EmptyStateWidget(
+            icon: Icons.wifi_off,
+            title: 'Gagal Memuat Data',
+            subtitle: 'Coba periksa koneksi internet Anda',
+          );
+        }
+
         if (state is HasData<List<dynamic>>) {
           if (state.data.isEmpty) {
             return const EmptyStateWidget(
               icon: Icons.search_off,
-              title: 'No Result',
-              subtitle: 'Try different keyword',
+              title: 'Tidak ada hasil ditemukan',
+              subtitle: 'Coba kata kunci lain',
             );
           }
 
@@ -37,7 +45,7 @@ class SearchResultSection extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     '/detail',
-                    arguments: restaurant['id'],
+                    arguments: restaurant,
                   );
                 },
               );
@@ -47,8 +55,8 @@ class SearchResultSection extends StatelessWidget {
 
         return const EmptyStateWidget(
           icon: Icons.search,
-          title: 'Search Restaurant',
-          subtitle: 'Start typing to search',
+          title: 'Cari Restoran',
+          subtitle: 'Masukkan kata kunci untuk mencari restoran',
         );
       },
     );

@@ -14,7 +14,7 @@ class RestaurantListBody extends StatelessWidget {
       builder: (context, provider, _) {
         final state = provider.state;
 
-        // Loading State - dengan styling yang lebih menarik
+        // Loading State
         if (state is Loading) {
           return Center(
             child: Column(
@@ -41,14 +41,13 @@ class RestaurantListBody extends StatelessWidget {
           return ErrorView(
             message: state.message,
             onRetry: () {
-              provider.fetchRest(); // pastikan method ini ada di provider
+              provider.fetchRest(); 
             },
           );
         }
 
         // Has Data State
         if (state is HasData<List<dynamic>>) {
-          // Jika data kosong
           if (state.data.isEmpty) {
             return Center(
               child: Padding(
@@ -93,21 +92,19 @@ class RestaurantListBody extends StatelessWidget {
             );
           }
 
-          // Jika ada data
           return RefreshIndicator(
             onRefresh: () async {
-              await provider.fetchRest(); // untuk pull-to-refresh
+              await provider.fetchRest(); 
             },
             color: Theme.of(context).primaryColor,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
               physics:
-                  const AlwaysScrollableScrollPhysics(), // untuk refresh indicator
+                  const AlwaysScrollableScrollPhysics(),
               itemCount: state.data.length,
               itemBuilder: (context, index) {
                 final restaurant = state.data[index];
 
-                // Animasi fade-in untuk setiap card
                 return AnimatedOpacity(
                   opacity: 1.0,
                   duration: Duration(milliseconds: 300 + (index * 50)),
@@ -117,7 +114,7 @@ class RestaurantListBody extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         '/detail',
-                        arguments: restaurant['id'],
+                        arguments: restaurant,
                       );
                     },
                   ),

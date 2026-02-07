@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/core/constants/api_constant.dart';
 import 'package:permission1/core/utils/result_state.dart';
 import 'package:permission1/core/widgets/add_review_form.dart';
 import 'package:permission1/core/widgets/detail/description_section.dart';
@@ -14,13 +15,29 @@ class RestaurantDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+
     return Scaffold(
       body: Consumer<RestaurantDetailProvider>(
         builder: (context, provider, _) {
           final state = provider.state;
 
           if (state is Loading) {
-            return const Center(child: CircularProgressIndicator());
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  expandedHeight: 300,
+                  pinned: true,
+                  flexibleSpace: Hero(
+                    tag: args['id'],
+                    child: Image.network(
+                      '${ApiConstant.imageLarge}${args['pictureId']}',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            );
           }
 
           if (state is HasData<Map<String, dynamic>>) {

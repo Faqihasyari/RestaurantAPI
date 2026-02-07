@@ -18,12 +18,13 @@ class AppRoutes {
     home: (_) => const RestaurantListPage(),
 
     detail: (context) {
-      final id = ModalRoute.of(context)!.settings.arguments as String;
+      final restaurant =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
       return ChangeNotifierProvider(
         create: (_) => RestaurantDetailProvider(
           repository: RestaurantRepository(apiService: ApiService()),
-          restaurantId: id,
+          restaurantId: restaurant['id'],
         ),
         child: const RestaurantDetailPage(),
       );
