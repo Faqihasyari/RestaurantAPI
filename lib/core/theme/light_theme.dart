@@ -18,20 +18,14 @@ ThemeData lightTheme = ThemeData(
   ),
   cardColor: Colors.white,
   dividerColor: const Color(0xFFE0E0E0),
-  iconTheme: const IconThemeData(
-    color: Colors.black87,
-  ),
+  iconTheme: const IconThemeData(color: Colors.black87),
   textTheme: const TextTheme(
     titleMedium: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.bold,
       color: Colors.black87,
     ),
-    bodySmall: TextStyle(
-      color: Colors.black54,
-    ),
-    bodyMedium: TextStyle(
-      color: Colors.black87,
-    ),
+    bodySmall: TextStyle(color: Colors.black54),
+    bodyMedium: TextStyle(color: Colors.black87),
   ),
 );

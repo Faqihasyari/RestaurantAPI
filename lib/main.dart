@@ -10,8 +10,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider())
-        ,ChangeNotifierProvider(
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(
           create: (_) => RestauranListProvider(
             RestaurantRepository(apiService: ApiService()),
           ),

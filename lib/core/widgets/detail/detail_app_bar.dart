@@ -11,19 +11,19 @@ class DetailAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.pushNamed(context, '/search');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.brightness_6),
-            onPressed: () {
-              context.read<ThemeProvider>().toggleTheme();
-            },
-          ),
-        ],
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            Navigator.pushNamed(context, '/search');
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.brightness_6),
+          onPressed: () {
+            context.read<ThemeProvider>().toggleTheme();
+          },
+        ),
+      ],
       expandedHeight: 300,
       pinned: true,
       stretch: true,

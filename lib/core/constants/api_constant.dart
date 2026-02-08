@@ -3,5 +3,4 @@ class ApiConstant {
 
   static const String imageSmall = '${baseUrl}images/small/';
   static const String imageLarge = '${baseUrl}images/large/';
-
 }

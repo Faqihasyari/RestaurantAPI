@@ -39,16 +39,16 @@ class ReviewCard extends StatelessWidget {
                     Text(
                       review['name'],
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       review['date'],
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            color: Colors.grey,
-                          ),
+                        fontSize: 11,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),
@@ -58,9 +58,9 @@ class ReviewCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             review['review'],
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  height: 1.5,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(height: 1.5),
           ),
         ],
       ),

@@ -41,7 +41,7 @@ class RestaurantListBody extends StatelessWidget {
           return ErrorView(
             message: state.message,
             onRetry: () {
-              provider.fetchRest(); 
+              provider.fetchRest();
             },
           );
         }
@@ -94,13 +94,12 @@ class RestaurantListBody extends StatelessWidget {
 
           return RefreshIndicator(
             onRefresh: () async {
-              await provider.fetchRest(); 
+              await provider.fetchRest();
             },
             color: Theme.of(context).primaryColor,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              physics:
-                  const AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: state.data.length,
               itemBuilder: (context, index) {
                 final restaurant = state.data[index];
