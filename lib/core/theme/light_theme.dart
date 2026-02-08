@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  fontFamily: 'Roboto',
+  fontFamily: 'Poppins',
   primaryColor: Colors.orange,
   scaffoldBackgroundColor: const Color(0xFFF5F5F5),
   colorScheme: ColorScheme.fromSeed(

@@ -23,19 +23,24 @@ class RestaurantDetailPage extends StatelessWidget {
           final state = provider.state;
 
           if (state is Loading) {
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  expandedHeight: 300,
-                  pinned: true,
-                  flexibleSpace: Hero(
-                    tag: args['id'],
-                    child: Image.network(
-                      '${ApiConstant.imageLarge}${args['pictureId']}',
-                      fit: BoxFit.cover,
+            return Stack(
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      expandedHeight: 300,
+                      pinned: true,
+                      flexibleSpace: Hero(
+                        tag: args['id'],
+                        child: Image.network(
+                          '${ApiConstant.imageLarge}${args['pictureId']}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+                const Center(child: CircularProgressIndicator()),
               ],
             );
           }
