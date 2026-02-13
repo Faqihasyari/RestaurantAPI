@@ -1,16 +1,43 @@
-# permission1
+# 🍽️ Restaurant App
 
-A new Flutter project.
+Aplikasi Flutter yang menampilkan daftar restoran menggunakan API publik dari Dicoding.  
+Aplikasi ini menerapkan state management menggunakan Provider serta mendukung fitur pencarian dan penambahan review.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Fitur Utama
 
-A few resources to get you started if this is your first Flutter project:
+- ✅ Menampilkan daftar restoran
+- ✅ Detail restoran lengkap (deskripsi, menu, review)
+- ✅ Hero Animation (List → Detail & Search → Detail)
+- ✅ Pencarian restoran
+- ✅ Tambah review restoran
+- ✅ Pull to Refresh
+- ✅ Dark & Light Theme
+- ✅ Loading indicator pada List & Detail
+- ✅ Error handling dengan pesan yang user-friendly
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🧠 State Management
+
+Menggunakan:
+
+- **Provider** untuk state management
+- **ResultState** (Loading, HasData, ErrorState) untuk mengatur kondisi UI
+- Repository Pattern untuk pemisahan logic data dan UI
+
+---
+
+## 🌐 API
+
+Menggunakan API publik dari Dicoding
+
+Endpoint yang digunakan:
+
+- `/list`
+- `/detail/{id}`
+- `/search?q=query`
+- `/review`
+
+---
