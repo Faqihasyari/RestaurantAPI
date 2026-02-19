@@ -12,33 +12,7 @@ class DetailAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       actions: [
-        Consumer<FavoriteProvider>(
-          builder: (context, favoriteProvider, _) {
-            final isFavorite = favoriteProvider.favorites.any(
-              (item) => item['id'] == restaurant['id'],
-            );
-
-            return IconButton(
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? Colors.red : Colors.white,
-              ),
-              onPressed: () async {
-                if (isFavorite) {
-                  await favoriteProvider.removeFavorite(restaurant['id']);
-                } else {
-                  await favoriteProvider.addFavorite({
-                    'id': restaurant['id'],
-                    'name': restaurant['name'],
-                    'city': restaurant['city'],
-                    'pictureId': restaurant['pictureId'],
-                    'rating': restaurant['rating'],
-                  });
-                }
-              },
-            );
-          },
-        ),
+        
 
         IconButton(
           icon: const Icon(Icons.search),

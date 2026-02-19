@@ -7,6 +7,7 @@ import 'package:permission1/core/widgets/detail/detail_app_bar.dart';
 import 'package:permission1/core/widgets/detail/info_card.dart';
 import 'package:permission1/core/widgets/detail/menu_section.dart';
 import 'package:permission1/core/widgets/detail/review_section.dart';
+import 'package:permission1/core/widgets/listPage/error_view.dart';
 import 'package:permission1/presentasion/providers/restaurant_detail_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -77,7 +78,15 @@ class RestaurantDetailPage extends StatelessWidget {
             );
           }
 
-          return const Center(child: Text('Error'));
+          if (state is ErrorState<Map<String, dynamic>>) {
+            return ErrorView(
+              message: state.message,
+              onRetry: () {
+                provider.fetchDetail();
+              },
+            );
+          }
+          return const Center(child: Text('Terjadi kesalahan'));
         },
       ),
     );

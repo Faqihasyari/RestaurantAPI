@@ -46,6 +46,8 @@ class DescriptionSection extends StatelessWidget {
               context,
             ).textTheme.bodyMedium?.copyWith(height: 1.6),
             textAlign: TextAlign.justify,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/presentasion/providers/favorite_provider.dart';
+import 'package:provider/provider.dart';
 
 class InfoCard extends StatelessWidget {
   final Map restaurant;
@@ -6,11 +8,65 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Column(
-      
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(restaurant['name']),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: primaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.info_outline,
+                  size: 20,
+                  color: primaryColor.withValues(alpha: 0.8),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                restaurant['name'],
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              Consumer<FavoriteProvider>(
+                builder: (context, favoriteProvider, _) {
+                  final isFavorite = favoriteProvider.favorites.any(
+                    (item) => item['id'] == restaurant['id'],
+                  );
+
+                  return IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.red : Colors.grey,
+                    ),
+                    onPressed: () async {
+                      if (isFavorite) {
+                        await favoriteProvider.removeFavorite(restaurant['id']);
+                      } else {
+                        await favoriteProvider.addFavorite({
+                          'id': restaurant['id'],
+                          'name': restaurant['name'],
+                          'city': restaurant['city'],
+                          'pictureId': restaurant['pictureId'],
+                          'rating': restaurant['rating'],
+                        });
+                      }
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
 
         Container(
           margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -20,7 +76,7 @@ class InfoCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: Colors.grey.withValues(alpha: 0.15),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -35,7 +91,9 @@ class InfoCard extends StatelessWidget {
                 Colors.red,
                 'Kota',
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
+              _divider(),
+              const SizedBox(height: 4),
               _row(
                 context,
                 Icons.home_outlined,
@@ -43,7 +101,9 @@ class InfoCard extends StatelessWidget {
                 Colors.blue,
                 'Alamat',
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
+              _divider(),
+              const SizedBox(height: 4),
               _row(
                 context,
                 Icons.star,
@@ -55,6 +115,15 @@ class InfoCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _divider() {
+    return Divider(
+      color: Colors.grey.withValues(alpha: 0.15),
+      thickness: 1,
+      height: 8,
+      indent: 52,
     );
   }
 
