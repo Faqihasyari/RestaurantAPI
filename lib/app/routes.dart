@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/presentasion/pages/main_page.dart';
 import 'package:provider/provider.dart';
 
 import 'package:permission1/data/repositories/restaurant_repository.dart';
 import 'package:permission1/data/services/api_service.dart';
 import 'package:permission1/presentasion/pages/restaurant_detail_page.dart';
-import 'package:permission1/presentasion/pages/restaurant_list_page.dart';
 import 'package:permission1/presentasion/pages/restaurant_search_page.dart';
 import 'package:permission1/presentasion/providers/restaurant_detail_provider.dart';
 import 'package:permission1/presentasion/providers/restaurant_search_provider.dart';
@@ -13,9 +13,10 @@ class AppRoutes {
   static const String home = '/';
   static const String detail = '/detail';
   static const String search = '/search';
+  static const String favorite = '/favorite';
 
   static Map<String, WidgetBuilder> routes = {
-    home: (_) => const RestaurantListPage(),
+    home: (_) => const MainPage(),
 
     detail: (context) {
       final restaurant =
@@ -38,5 +39,9 @@ class AppRoutes {
         child: const RestaurantSearchPage(),
       );
     },
+
+    // favorite: (_) {
+      
+    // }
   };
 }

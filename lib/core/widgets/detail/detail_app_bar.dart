@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/presentasion/providers/favorite_provider.dart';
 import 'package:permission1/presentasion/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/api_constant.dart';
@@ -11,12 +12,41 @@ class DetailAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       actions: [
+        Consumer<FavoriteProvider>(
+          builder: (context, favoriteProvider, _) {
+            final isFavorite = favoriteProvider.favorites.any(
+              (item) => item['id'] == restaurant['id'],
+            );
+
+            return IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.white,
+              ),
+              onPressed: () async {
+                if (isFavorite) {
+                  await favoriteProvider.removeFavorite(restaurant['id']);
+                } else {
+                  await favoriteProvider.addFavorite({
+                    'id': restaurant['id'],
+                    'name': restaurant['name'],
+                    'city': restaurant['city'],
+                    'pictureId': restaurant['pictureId'],
+                    'rating': restaurant['rating'],
+                  });
+                }
+              },
+            );
+          },
+        ),
+
         IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {
             Navigator.pushNamed(context, '/search');
           },
         ),
+
         IconButton(
           icon: const Icon(Icons.brightness_6),
           onPressed: () {
@@ -24,6 +54,7 @@ class DetailAppBar extends StatelessWidget {
           },
         ),
       ],
+
       expandedHeight: 300,
       pinned: true,
       stretch: true,
@@ -39,24 +70,6 @@ class DetailAppBar extends StatelessWidget {
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            restaurant['name'],
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16,
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.bold,
-              shadows: const [Shadow(color: Colors.black45, blurRadius: 4)],
-            ),
-          ),
-        ),
         centerTitle: true,
         background: Stack(
           fit: StackFit.expand,

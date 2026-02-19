@@ -6,47 +6,55 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return Column(
+      
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(restaurant['name']),
+
+        Container(
+          margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _row(
-            context,
-            Icons.location_on,
-            restaurant['city'],
-            Colors.red,
-            'Kota',
+          child: Column(
+            children: [
+              _row(
+                context,
+                Icons.location_on,
+                restaurant['city'],
+                Colors.red,
+                'Kota',
+              ),
+              const SizedBox(height: 16),
+              _row(
+                context,
+                Icons.home_outlined,
+                restaurant['address'],
+                Colors.blue,
+                'Alamat',
+              ),
+              const SizedBox(height: 16),
+              _row(
+                context,
+                Icons.star,
+                restaurant['rating'].toString(),
+                Colors.amber,
+                'Rating',
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          _row(
-            context,
-            Icons.home_outlined,
-            restaurant['address'],
-            Colors.blue,
-            'Alamat',
-          ),
-          const SizedBox(height: 16),
-          _row(
-            context,
-            Icons.star,
-            restaurant['rating'].toString(),
-            Colors.amber,
-            'Rating',
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
