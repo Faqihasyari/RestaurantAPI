@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission1/presentasion/pages/main_page.dart';
+import 'package:permission1/presentasion/pages/setting_page.dart';
 import 'package:provider/provider.dart';
 
 import 'package:permission1/data/repositories/restaurant_repository.dart';
@@ -14,6 +15,7 @@ class AppRoutes {
   static const String detail = '/detail';
   static const String search = '/search';
   static const String favorite = '/favorite';
+  static const String setting = '/setting';
 
   static Map<String, WidgetBuilder> routes = {
     home: (_) => const MainPage(),
@@ -40,8 +42,6 @@ class AppRoutes {
       );
     },
 
-    // favorite: (_) {
-      
-    // }
+    setting: (_) => const SettingPage(),
   };
 }

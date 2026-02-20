@@ -4,19 +4,8 @@ import 'package:provider/provider.dart';
 import '../providers/favorite_provider.dart';
 import '../../core/widgets/listPage/restaurant_car.dart';
 
-class FavoritePage extends StatefulWidget {
+class FavoritePage extends StatelessWidget {
   const FavoritePage({super.key});
-
-  @override
-  State<FavoritePage> createState() => _FavoritePageState();
-}
-
-class _FavoritePageState extends State<FavoritePage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => context.read<FavoriteProvider>().loadFavorites());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +30,9 @@ class _FavoritePageState extends State<FavoritePage> {
       body: Consumer<FavoriteProvider>(
         builder: (context, provider, _) {
           if (provider.favorites.isEmpty) {
-            return const Center(child: Text("Belum ada restoran favorit"));
+            return const Center(
+              child: Text("Belum ada restoran favorit"),
+            );
           }
 
           return ListView.builder(

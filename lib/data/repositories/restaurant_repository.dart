@@ -5,7 +5,7 @@ class RestaurantRepository {
 
   RestaurantRepository({required this.apiService});
 
-  Future<List<dynamic>> fetchRestaurantList() async {
+  Future<List<dynamic>> getRestaurantList() async {
     return await apiService.getRestaurantList();
   }
 

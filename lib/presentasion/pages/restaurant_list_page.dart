@@ -24,6 +24,12 @@ class RestaurantListPage extends StatelessWidget {
               context.read<ThemeProvider>().toggleTheme();
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.pushNamed(context, '/setting');
+            },
+          ),
         ],
       ),
       body: const RestaurantListBody(),

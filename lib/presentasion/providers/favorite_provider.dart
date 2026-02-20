@@ -4,7 +4,9 @@ import '../../data/local/database_helper.dart';
 class FavoriteProvider extends ChangeNotifier {
   final DatabaseHelper databaseHelper;
 
-  FavoriteProvider(this.databaseHelper);
+  FavoriteProvider(this.databaseHelper) {
+    loadFavorites();
+  }
 
   List<Map<String, dynamic>> _favorites = [];
   List<Map<String, dynamic>> get favorites => _favorites;

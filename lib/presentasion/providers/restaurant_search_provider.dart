@@ -18,7 +18,7 @@ class RestaurantSearchProvider extends ChangeNotifier {
       _state = Loading();
       notifyListeners();
 
-      final result = await repository.fetchRestaurantList();
+      final result = await repository.getRestaurantList();
       _state = HasData(result);
     } catch (e) {
       _state = ErrorState(mapErrorToMessage(e));
