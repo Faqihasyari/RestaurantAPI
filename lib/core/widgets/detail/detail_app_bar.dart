@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:permission1/presentasion/providers/favorite_provider.dart';
 import 'package:permission1/presentasion/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/api_constant.dart';
