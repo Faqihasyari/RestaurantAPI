@@ -18,13 +18,10 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: themeProvider.themeMode,
 
-      // initial page
       initialRoute: AppRoutes.home,
 
-      // daftar route
       routes: AppRoutes.routes,
 
-      // fallback kalau route salah
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
           builder: (_) =>

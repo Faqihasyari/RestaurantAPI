@@ -13,7 +13,7 @@ void main() {
   late RestauranListProvider provider;
 
   final mockRestaurantList = <dynamic>[
-    {"id": "1", "name": "Test"}
+    {"id": "1", "name": "Test"},
   ];
 
   setUp(() {
@@ -26,8 +26,9 @@ void main() {
   });
 
   test('Should return HasData when API call success', () async {
-    when(mockRepository.getRestaurantList())
-        .thenAnswer((_) async => mockRestaurantList);
+    when(
+      mockRepository.getRestaurantList(),
+    ).thenAnswer((_) async => mockRestaurantList);
 
     await provider.fetchRest();
 
@@ -35,8 +36,9 @@ void main() {
   });
 
   test('Should return ErrorState when API call fails', () async {
-    when(mockRepository.getRestaurantList())
-        .thenAnswer((_) async => throw Exception('Failed'));
+    when(
+      mockRepository.getRestaurantList(),
+    ).thenAnswer((_) async => throw Exception('Failed'));
 
     await provider.fetchRest();
 

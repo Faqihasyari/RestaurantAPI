@@ -21,7 +21,6 @@ class ApiService {
     return "$baseUrl/review";
   }
 
-  // hit api
   Future<List<dynamic>> getRestaurantList() async {
     try {
       final response = await http.get(Uri.parse(getRestaurantDetailUrl()));
@@ -35,7 +34,6 @@ class ApiService {
     }
   }
 
-  // get restaurant detail
   Future<Map<String, dynamic>> getRestaurantDetail(String id) async {
     try {
       final response = await http.get(Uri.parse(getRestaurantByIdUrl(id)));

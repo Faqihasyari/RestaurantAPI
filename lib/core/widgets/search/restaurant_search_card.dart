@@ -60,7 +60,6 @@ class RestaurantSearchCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Nama restoran
                       Text(
                         restaurant['name'],
                         maxLines: 2,
@@ -71,7 +70,6 @@ class RestaurantSearchCard extends StatelessWidget {
 
                       const SizedBox(height: 6),
 
-                      // Lokasi
                       Row(
                         children: [
                           Container(

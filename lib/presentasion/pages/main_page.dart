@@ -25,7 +25,7 @@ class MainPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        onTap: navProvider.changeIndex, // 🔥 tidak pakai setState lagi
+        onTap: navProvider.changeIndex,
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey[400],
         type: BottomNavigationBarType.fixed,

@@ -47,7 +47,6 @@ class AddReviewFormState extends State<AddReviewForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Section
             Row(
               children: [
                 Container(
@@ -91,7 +90,6 @@ class AddReviewFormState extends State<AddReviewForm> {
 
             const SizedBox(height: 20),
 
-            // Name Field
             TextFormField(
               controller: _nameController,
               enabled: !isSubmitting,
@@ -166,7 +164,6 @@ class AddReviewFormState extends State<AddReviewForm> {
 
             const SizedBox(height: 16),
 
-            // Review Field
             TextFormField(
               controller: _reviewController,
               enabled: !isSubmitting,
@@ -247,7 +244,6 @@ class AddReviewFormState extends State<AddReviewForm> {
 
             const SizedBox(height: 20),
 
-            // Submit Button
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -314,10 +310,8 @@ class AddReviewFormState extends State<AddReviewForm> {
   }
 
   Future<void> _handleSubmit() async {
-    // Dismiss keyboard
     FocusScope.of(context).unfocus();
 
-    // Validate form
     if (!_formKey.currentState!.validate()) {
       return;
     }

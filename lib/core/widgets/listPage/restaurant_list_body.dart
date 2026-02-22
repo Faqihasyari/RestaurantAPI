@@ -14,7 +14,6 @@ class RestaurantListBody extends StatelessWidget {
       builder: (context, provider, _) {
         final state = provider.state;
 
-        // Loading State
         if (state is Loading) {
           return Center(
             child: Column(
@@ -36,7 +35,6 @@ class RestaurantListBody extends StatelessWidget {
           );
         }
 
-        // Error State
         if (state is ErrorState<List<dynamic>>) {
           return ErrorView(
             message: state.message,
@@ -46,7 +44,6 @@ class RestaurantListBody extends StatelessWidget {
           );
         }
 
-        // Has Data State
         if (state is HasData<List<dynamic>>) {
           if (state.data.isEmpty) {
             return Center(
@@ -123,7 +120,6 @@ class RestaurantListBody extends StatelessWidget {
           );
         }
 
-        // Default State - jika tidak ada state yang cocok
         return Center(
           child: Padding(
             padding: const EdgeInsets.all(32),

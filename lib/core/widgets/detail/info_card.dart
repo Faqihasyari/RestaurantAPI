@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/core/utils/result_state.dart';
 import 'package:permission1/presentasion/providers/favorite_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -39,9 +40,15 @@ class InfoCard extends StatelessWidget {
               const Spacer(),
               Consumer<FavoriteProvider>(
                 builder: (context, favoriteProvider, _) {
-                  final isFavorite = favoriteProvider.favorites.any(
-                    (item) => item['id'] == restaurant['id'],
-                  );
+                  final state = favoriteProvider.state;
+
+                  bool isFavorite = false;
+
+                  if (state is HasData<List<Map<String, dynamic>>>) {
+                    isFavorite = state.data.any(
+                      (item) => item['id'] == restaurant['id'],
+                    );
+                  }
 
                   return IconButton(
                     icon: Icon(

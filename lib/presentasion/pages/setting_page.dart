@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:permission1/core/widgets/listPage/error_view.dart';
 import 'package:provider/provider.dart';
 import '../providers/reminder_provider.dart';
+import '../../core/utils/result_state.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -8,11 +10,24 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pengaturan'),
-      ),
+      appBar: AppBar(title: const Text('Pengaturan')),
       body: Consumer<ReminderProvider>(
         builder: (context, provider, _) {
+          final state = provider.state;
+
+          if (state is Loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state is ErrorState<void>) {
+            return ErrorView(
+              message: state.message,
+              onRetry: () {
+                provider.toggle(!provider.isEnabled);
+              },
+            );
+          }
+
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -21,13 +36,6 @@ class SettingPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: Row(
                   children: [
@@ -39,13 +47,11 @@ class SettingPage extends StatelessWidget {
                         children: [
                           Text(
                             'Daily Reminder',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 4),
                           Text(
-                            'Aktifkan pengingat makan siang pukul 11.00',
+                            'Aktifkan notifikasi rekomendasi restoran harian',
                             style: TextStyle(fontSize: 12),
                           ),
                         ],

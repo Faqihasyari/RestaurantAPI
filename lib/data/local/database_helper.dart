@@ -14,8 +14,7 @@ class DatabaseHelper {
   static const columnRating = 'rating';
 
   DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance =
-      DatabaseHelper._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database? _database;
 
@@ -47,7 +46,6 @@ class DatabaseHelper {
     ''');
   }
 
-  // Insert
   Future<void> insertFavorite(Map<String, dynamic> restaurant) async {
     final db = await database;
     await db.insert(
@@ -57,23 +55,16 @@ class DatabaseHelper {
     );
   }
 
-  // Get All
   Future<List<Map<String, dynamic>>> getFavorites() async {
     final db = await database;
     return await db.query(tableFavorite);
   }
 
-  // Delete
   Future<void> deleteFavorite(String id) async {
     final db = await database;
-    await db.delete(
-      tableFavorite,
-      where: '$columnId = ?',
-      whereArgs: [id],
-    );
+    await db.delete(tableFavorite, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  // Check Exists
   Future<bool> isFavorite(String id) async {
     final db = await database;
     final result = await db.query(
