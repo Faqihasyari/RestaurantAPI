@@ -49,7 +49,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.init();
 
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  await Workmanager().initialize(callbackDispatcher);
 
   runApp(
     MultiProvider(
