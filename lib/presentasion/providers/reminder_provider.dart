@@ -27,19 +27,24 @@ class ReminderProvider extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_key, value);
 
-      final now = DateTime.now();
-      final schedule = DateTime(now.year, now.month, now.day, 11);
-      final frequency = schedule.difference(now); 
-
       if (value) {
+        final now = DateTime.now();
+        DateTime scheduled = DateTime(now.year, now.month, now.day, 11);
+
+        if (scheduled.isBefore(now)) {
+          scheduled = scheduled.add(const Duration(days: 1));
+        }
+
+        final initialDelay = scheduled.difference(now);
+
         await Workmanager().registerPeriodicTask(
-          "testTask",
-          dailyTask,
-          frequency: frequency,
-          initialDelay: Duration.zero,
+          dailyTask, 
+          dailyTask, 
+          frequency: const Duration(hours: 24),
+          initialDelay: initialDelay,
         );
       } else {
-        await Workmanager().cancelAll();
+        await Workmanager().cancelByUniqueName(dailyTask);
       }
 
       _isEnabled = value;

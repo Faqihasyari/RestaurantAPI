@@ -7,17 +7,16 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('App Navigation Integration Test', () {
-
-    testWidgets('Initial page should show Restaurants title',
-        (tester) async {
+    testWidgets('Initial page should show Restaurants title', (tester) async {
       app.main();
       await tester.pumpAndSettle();
 
       expect(find.text('Restaurants'), findsOneWidget);
     });
 
-    testWidgets('Should navigate to Search page when search button tapped',
-        (tester) async {
+    testWidgets('Should navigate to Search page when search button tapped', (
+      tester,
+    ) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -27,8 +26,9 @@ void main() {
       expect(find.text('Search Restaurant'), findsOneWidget);
     });
 
-    testWidgets('Should navigate to Setting page and show toggle switch',
-        (tester) async {
+    testWidgets('Should navigate to Setting page and show toggle switch', (
+      tester,
+    ) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -38,6 +38,5 @@ void main() {
       expect(find.text('Pengaturan'), findsOneWidget);
       expect(find.byType(Switch), findsOneWidget);
     });
-
   });
 }
